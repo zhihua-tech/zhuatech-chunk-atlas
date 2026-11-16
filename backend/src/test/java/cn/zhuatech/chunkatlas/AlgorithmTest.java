@@ -43,6 +43,15 @@ class AlgorithmTest {
 
   /** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ · 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
   @Test
+  void enterpriseEvidenceAndBoundaries() {
+    var result=Algorithm.compute(Map.of("size",4,"overlap",2),List.of(Map.of("id","x","text","😀abc😀abc")));
+    var m=(Map<?,?>)result.get("metrics");assertEquals(8,m.get("sourceUnits"));
+    assertEquals(12,m.get("indexedUnits"));assertEquals(4,m.get("overlapUnits"));assertEquals(1,m.get("repeatChunks"));
+    var rows=(List<Map<String,Object>>)result.get("rows");assertEquals(true,rows.get(2).get("repeatContent"));
+  }
+
+  /** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ · 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
+  @Test
   void knownResults() {
     var result = Algorithm.compute(cfg, data);
     var m = (Map<String, Object>) result.get("metrics");

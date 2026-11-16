@@ -56,6 +56,10 @@ const labels = {
   context: "编排正文",
 };
 const resultLabels = {
+  indexedUnits: "索引总码点",
+  overlapUnits: "重复覆盖码点",
+  repeatChunks: "完全重复切片数",
+  repeatContent: "已出现相同内容",
   ...labels,
   ...{
     knownTokens: "词表命中数",

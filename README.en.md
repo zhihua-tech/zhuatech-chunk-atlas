@@ -4,7 +4,13 @@
 
 Split extracted text at paragraph or punctuation boundaries within a configurable code-point budget. Reconstruct and verify chunks using half-open source offsets, overlap and SHA-256. This does not perform OCR or count model tokens.
 
+## 1.3: business acceptance
+
+Measure indexed and overlapping code points and flag repeated exact chunk content across the batch without removing it. Previously saved results remain unchanged. Re-run a copy to apply the new calculation.
+
 ## Run locally
+
+Optional: run `python3 scripts/doctor.py` to check Java, the local bind address/port, and data directory permissions before launching. Python is not required to run the workbench.
 
 **1.2 update:** JSON imports identify the offending row or field instead of silently dropping unknown columns. Authors may withdraw a pending batch with a reason, retain its input and result, and copy it for correction. Concurrent retries with the same submission key and payload resolve to a single record on MySQL.
 

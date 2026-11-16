@@ -16,7 +16,8 @@ final class Algorithm {
     int size = integer(cfg, "size", 4, 4096), overlap = integer(cfg, "overlap", 0, size - 1);
     must(overlap <= size / 2, "重叠不得超过窗口一半");
     var out = new ArrayList<>();
-    int units = 0;
+    int units = 0, indexed = 0, repeats = 0;
+    var seen = new HashSet<String>();
     for (var r : rows) {
       String text = str(r, "text", false);
       int[] cp = text.codePoints().toArray();
@@ -32,6 +33,10 @@ final class Algorithm {
             }
           }
         String chunk = new String(cp, start, end - start);
+        String digest = hash(chunk);
+        boolean repeated = !seen.add(digest);
+        if (repeated) repeats++;
+        indexed += end - start;
         out.add(
             Map.of(
                 "id",
@@ -47,13 +52,14 @@ final class Algorithm {
                 "text",
                 chunk,
                 "sha256",
-                hash(chunk)));
+                digest, "repeatContent", repeated));
         must(out.size() <= 3000, "超过 3000 个切片，请增大窗口或拆批");
         if (end == cp.length) break;
         start = end - overlap;
       }
     }
     return result(
-        Map.of("documents", rows.size(), "chunks", out.size(), "sourceUnits", units), out);
+        Map.of("documents", rows.size(), "chunks", out.size(), "sourceUnits", units,
+            "indexedUnits", indexed, "overlapUnits", indexed - units, "repeatChunks", repeats), out);
   }
 }

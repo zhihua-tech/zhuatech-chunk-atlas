@@ -1,0 +1,13 @@
+{
+  "title": "索引冗余核对",
+  "settings": {
+    "size": 4,
+    "overlap": 2
+  },
+  "rows": [
+    {
+      "id": "Doc",
+      "text": "😀abc😀abc"
+    }
+  ]
+}
